@@ -10,17 +10,23 @@ public class Role {
     @GeneratedValue
     private int id;
 
-    @Column(unique = true, nullable = false)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private RoleName name;
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<User> users;
+
+    public Role(RoleName name) {
+        this.name = name;
+    }
+    public Role() {
+    }
 
     public int getId() {
         return this.id;
     }
 
-    public String getName() {
+    public RoleName getName() {
         return this.name;
     }
 
@@ -28,7 +34,7 @@ public class Role {
         return this.users;
     }
 
-    public void setName(String name) {
+    public void setName(RoleName name) {
         this.name = name;
     }
 

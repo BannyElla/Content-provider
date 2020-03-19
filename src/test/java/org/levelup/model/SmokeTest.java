@@ -15,7 +15,6 @@ class SmokeTest {
 
     private static final String TEST_LOGIN = "Test user";
     private static final String TEST_PASSWORD = "password";
-    private static final String TEST_ROLE_NAME = "test role";
     private static final String TEST_IMAGE_PATH = "/test/path";
     private static final String TEST_CATEGORY_NAME = "Test category";
     private static final String TEST_ARTICLE_HEADER = "Test Header";
@@ -40,7 +39,7 @@ class SmokeTest {
     @Test
     void createRole() {
         Role role = new Role();
-        role.setName(TEST_ROLE_NAME);
+        role.setName(RoleName.USER);
 
         persistObject(role);
         Assertions.assertNotEquals(0, role.getId(), "Role hasn't been created");
@@ -48,12 +47,16 @@ class SmokeTest {
 
     @Test
     void createUser() {
+        Role role = new Role();
+        role.setName(RoleName.USER);
+
         User user = new User();
         user.setLogin(TEST_LOGIN);
         user.setPassword(TEST_PASSWORD);
+        user.setRole(role);
 
+        persistObject(role);
         persistObject(user);
-        Assertions.assertNotEquals(0, user.getId(), "User hasn't been created");
     }
 
     @Test

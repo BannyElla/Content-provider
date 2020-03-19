@@ -11,12 +11,19 @@ public class User {
 
     @Column(unique = true, nullable = false)
     private String login;
-    @Column
+    @Column(nullable = false)
     private String password;
 
-    /* TODO: потом указать nullable = false */
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Role role;
+
+    public User(String login, String password, Role role) {
+        this.login = login;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User() {}
 
     public int getId() {
         return this.id;
