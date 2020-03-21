@@ -40,9 +40,7 @@ class SmokeTest {
     void createRole() {
         Role role = new Role();
         role.setName(RoleName.USER);
-
         persistObject(role);
-        Assertions.assertNotEquals(0, role.getId(), "Role hasn't been created");
     }
 
     @Test
@@ -65,26 +63,27 @@ class SmokeTest {
         category.setName(TEST_CATEGORY_NAME);
 
         persistObject(category);
-        Assertions.assertNotEquals(0, category.getId(), "Category hasn't been created");
     }
 
     @Test
     void createImage() {
         Image image = new Image();
         image.setPath(TEST_IMAGE_PATH);
-
         persistObject(image);
-        Assertions.assertNotEquals(0, image.getId(), "Image hasn't been created");
     }
 
     @Test
     void createArticle() {
+        Category category = new Category();
+        category.setName(TEST_CATEGORY_NAME);
         Article article = new Article();
         article.setHeader(TEST_ARTICLE_HEADER);
         article.setText(TEST_ARTICLE_TEXT);
+        article.setCategory(category);
+        article.setVisibility(VisibilityType.PRIVATE);
 
+        persistObject(category);
         persistObject(article);
-        Assertions.assertNotEquals(0, article.getId(), "Article hasn't been created");
     }
 
     private void persistObject(Object obj) {

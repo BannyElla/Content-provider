@@ -1,6 +1,7 @@
 package org.levelup.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "users")
@@ -11,8 +12,12 @@ public class User {
 
     @Column(unique = true, nullable = false)
     private String login;
+
     @Column(nullable = false)
     private String password;
+
+    @Temporal(TemporalType.DATE)
+    private Date creationDate = new Date();
 
     @ManyToOne(optional = false)
     private Role role;

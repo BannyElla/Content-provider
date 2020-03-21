@@ -1,6 +1,7 @@
 package org.levelup.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -16,11 +17,16 @@ public class Article {
     @Column(nullable = false)
     private String text;
 
+    @Enumerated(EnumType.STRING)
+    private VisibilityType visible;
+
+    @Temporal(TemporalType.DATE)
+    private Date creationDate = new Date();
+
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Image> images;
 
-    /* TODO: потом указать nullable = false */
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Category category;
 
     public int getId() {
@@ -43,6 +49,8 @@ public class Article {
         return this.category;
     }
 
+    public VisibilityType getVisibility() { return this.visible; }
+
     public void setHeader(String header) {
         this.header = header;
     }
@@ -58,4 +66,6 @@ public class Article {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    public void setVisibility(VisibilityType visible) { this.visible = visible; }
 }
