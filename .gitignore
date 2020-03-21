@@ -1,2 +1,3 @@
-/.idea/
-contentProvider.iml
+# IntellijIdea files
+*.iml
+.idea

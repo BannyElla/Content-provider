@@ -10,8 +10,11 @@ public class Category {
     @GeneratedValue
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private VisibilityType visible = VisibilityType.PRIVATE;
 
     @OneToMany
     private List<Article> articles;
@@ -28,11 +31,11 @@ public class Category {
         return this.articles;
     }
 
+    public VisibilityType getVisibility() { return this.visible; }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setArticles(List<Article> articles) {
-        this.articles = articles;
-    }
+    public void setVisibility(VisibilityType visible) { this.visible = visible; }
 }

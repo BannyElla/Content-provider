@@ -10,24 +10,15 @@ import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDao {
-    private EntityManager manager;
+public class UserDao extends Dao {
 
     public UserDao(EntityManager manager) {
-        this.manager = manager;
+        super(manager);
     }
 
     public User create(String login, String password, Role role) {
         User user = new User(login, password, role);
-        manager.getTransaction().begin();
-        try {
-            manager.persist(user);
-        } catch (Exception e) {
-            manager.getTransaction().rollback();
-            throw e;
-        }
-        manager.getTransaction().commit();
-        return user;
+        return (User) persist(user);
     }
 
     @Nullable
@@ -52,5 +43,4 @@ public class UserDao {
             return new ArrayList<>();
         }
     }
-
 }

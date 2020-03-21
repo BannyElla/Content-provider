@@ -1,7 +1,6 @@
 package org.levelup.model;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -61,7 +60,7 @@ class SmokeTest {
     void createCategory() {
         Category category = new Category();
         category.setName(TEST_CATEGORY_NAME);
-
+        category.setVisibility(VisibilityType.PRIVATE);
         persistObject(category);
     }
 
@@ -80,7 +79,7 @@ class SmokeTest {
         article.setHeader(TEST_ARTICLE_HEADER);
         article.setText(TEST_ARTICLE_TEXT);
         article.setCategory(category);
-        article.setVisibility(VisibilityType.PRIVATE);
+
 
         persistObject(category);
         persistObject(article);

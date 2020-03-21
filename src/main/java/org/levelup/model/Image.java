@@ -13,8 +13,15 @@ public class Image {
     @Column(nullable = false)
     private String path;
 
-    @ManyToMany
+    @OneToMany
     private List<Article> articles;
+
+    public Image() {
+    }
+
+    public Image(String path) {
+        this.path = path;
+    }
 
     public int getId() {
         return this.id;
@@ -24,15 +31,7 @@ public class Image {
         return this.path;
     }
 
-    public List<Article> getArticles() {
-        return this.articles;
-    }
-
     public void setPath(String path) {
         this.path = path;
-    }
-
-    public void setArticles(List<Article> articles) {
-        this.articles = articles;
     }
 }
