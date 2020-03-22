@@ -1,3 +1,5 @@
-# IntellijIdea files
-*.iml
+# Project exclude paths
+/target/
 .idea
+*.iml
+out
