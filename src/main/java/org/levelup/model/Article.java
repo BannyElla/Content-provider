@@ -8,7 +8,7 @@ import java.util.Date;
 public class Article {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     @Column(nullable = false)
     private String header;
@@ -25,8 +25,12 @@ public class Article {
     @ManyToOne(optional = false)
     private Category category;
 
-    public int getId() {
+    public Long getId() {
         return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getHeader() {

@@ -47,8 +47,71 @@ class ArticleDaoTest {
         category.setName(categoryName);
         persistObject(image);
         persistObject(category);
-        Article article = dao.create(header, text, category, image);
-        assertOneArtile(header, text, categoryName, article);
+
+        Article newArticle = new Article();
+        newArticle.setHeader(header);
+        newArticle.setText(text);
+        newArticle.setCategory(category);
+        newArticle.setImage(image);
+        Article article = dao.create(newArticle);
+        assertOneArtile(header, text, categoryName, article, TEST_IMAGE_PATH);
+    }
+
+    @Test
+    void update() throws Exception {
+        String header = "header11";
+        String text = "text text 11";
+        String categoryName = "category 11";
+        Category category = new Category();
+        category.setName(categoryName);
+        persistObject(image);
+        persistObject(category);
+
+        Article article = new Article();
+        article.setHeader(header);
+        article.setText(text);
+        article.setCategory(category);
+        article.setImage(image);
+        persistObject(article);
+
+        String newHeader = "header12";
+        String newText = "text text 12";
+        String newCategoryName = "category 12";
+        Category newCategory = new Category();
+        newCategory.setName(newCategoryName);
+        persistObject(newCategory);
+        Article updatedArticle = new Article();
+        updatedArticle.setId(article.getId());
+        updatedArticle.setHeader(newHeader);
+        updatedArticle.setText(newText);
+        updatedArticle.setCategory(newCategory);
+
+        Article actualArticle = dao.update(updatedArticle);
+        assertOneArtile(newHeader, newText, newCategoryName, actualArticle, null);
+    }
+
+    @Test
+    void delete() throws Exception {
+        String header = "header13";
+        String text = "text text 13";
+        String categoryName = "category 13";
+        Category category = new Category();
+        category.setName(categoryName);
+        persistObject(image);
+        persistObject(category);
+
+        Article article = new Article();
+        article.setHeader(header);
+        article.setText(text);
+        article.setCategory(category);
+        article.setImage(image);
+        persistObject(article);
+
+        Long expectedId = article.getId();
+
+        Long actualId = dao.delete(expectedId);
+        assertNotNull(actualId);
+        assertEquals(actualId, expectedId);
     }
 
     @Test
@@ -65,7 +128,7 @@ class ArticleDaoTest {
         createArticle(header2, text2, category);
 
         Article actualArticle = dao.findByHeader(header);
-        assertOneArtile(header, text, categoryName, actualArticle);
+        assertOneArtile(header, text, categoryName, actualArticle, TEST_IMAGE_PATH);
     }
 
     @Test
@@ -126,13 +189,17 @@ class ArticleDaoTest {
         manager.getTransaction().commit();
     }
 
-    private void assertOneArtile(String header, String text, String categoryName, Article article) {
+    private void assertOneArtile(String header, String text, String categoryName, Article article, String imagePath) {
         assertNotNull(article, "Article hasn't been created");
         assertNotEquals(0, article.getId(), "Article hasn't been created");
         assertEquals(header, article.getHeader());
         assertEquals(text, article.getText());
         assertEquals(categoryName, article.getCategory().getName());
-        assertEquals(TEST_IMAGE_PATH, article.getImage().getPath());
+        if (imagePath == null) {
+            assertNull(article.getImage());
+        } else {
+            assertEquals(imagePath, article.getImage().getPath());
+        }
     }
 
     private void assertSeveralArticles(int expectedCount, List<Article> actualArticles) {

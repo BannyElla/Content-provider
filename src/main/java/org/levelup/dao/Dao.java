@@ -1,23 +1,10 @@
 package org.levelup.dao;
 
-import javax.persistence.EntityManager;
+public interface Dao<T> {
+   T create(T entity);
 
-public abstract class Dao {
-    protected EntityManager manager;
+   T update(T entity) throws Exception;
 
-    public Dao(EntityManager manager) {
-        this.manager = manager;
-    }
+   Long delete(Long id) throws Exception;
 
-    protected Object persist(Object obg) {
-        manager.getTransaction().begin();
-        try {
-            manager.persist(obg);
-        } catch (Exception e) {
-            manager.getTransaction().rollback();
-            throw e;
-        }
-        manager.getTransaction().commit();
-        return obg;
-    }
 }

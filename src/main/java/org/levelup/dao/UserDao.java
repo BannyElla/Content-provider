@@ -10,7 +10,7 @@ import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDao extends Dao {
+public class UserDao extends AbstractDao {
 
     public UserDao(EntityManager manager) {
         super(manager);

@@ -38,7 +38,9 @@ class CategoryDaoTest {
     @Test
     void createPrivateCategory() {
         String name = "category";
-        Category actualCategory = dao.create(name);
+        Category newCategory = new Category();
+        newCategory.setName(name);
+        Category actualCategory = dao.create(newCategory);
 
         creatingAssertions(actualCategory);
         assertEquals(name, actualCategory.getName());
@@ -48,11 +50,49 @@ class CategoryDaoTest {
     @Test
     void createPublicCategory() {
         String name = "category 2";
-        Category actualCategory = dao.create(name, VisibilityType.PUBLIC);
+        Category newCategory = new Category();
+        newCategory.setName(name);
+        newCategory.setVisibility(VisibilityType.PUBLIC);
+        Category actualCategory = dao.create(newCategory);
 
         creatingAssertions(actualCategory);
         assertEquals(name, actualCategory.getName());
         assertEquals(VisibilityType.PUBLIC, actualCategory.getVisibility());
+    }
+
+    @Test
+    void update() throws Exception {
+        String name = "category 12";
+        String newName = "category 13";
+        Category newCategory = new Category();
+        newCategory.setName(name);
+        newCategory.setVisibility(VisibilityType.PUBLIC);
+        persistObject(newCategory);
+
+        Category updatedCategory = new Category();
+        updatedCategory.setId(newCategory.getId());
+        updatedCategory.setName(newName);
+        updatedCategory.setVisibility(VisibilityType.PRIVATE);
+
+        Category actualCategory = dao.update(updatedCategory);
+
+        assertNotNull(actualCategory);
+        assertEquals(newName, actualCategory.getName());
+        assertEquals(VisibilityType.PRIVATE, actualCategory.getVisibility());
+    }
+
+    @Test
+    void delete() throws Exception {
+        String name = "category 14";
+        Category newCategory = new Category();
+        newCategory.setName(name);
+        newCategory.setVisibility(VisibilityType.PUBLIC);
+        persistObject(newCategory);
+        Long expectedId = newCategory.getId();
+
+        Long actualId = dao.delete(expectedId);
+        assertNotNull(actualId);
+        assertEquals(actualId, expectedId);
     }
 
     @Test
