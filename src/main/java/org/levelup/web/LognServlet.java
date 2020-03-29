@@ -1,4 +1,4 @@
-package web;
+package org.levelup.web;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

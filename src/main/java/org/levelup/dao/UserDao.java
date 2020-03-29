@@ -4,14 +4,17 @@ import com.sun.istack.Nullable;
 import org.levelup.model.Role;
 import org.levelup.model.User;
 import org.levelup.model.UserRole;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.Objects;
 
+@Repository
 public class UserDao extends AbstractDao<User> {
-
+    @Autowired
     public UserDao(EntityManager manager) {
         super(manager);
     }
@@ -37,9 +40,9 @@ public class UserDao extends AbstractDao<User> {
 
     public List<User> findByRole(UserRole role) {
         String sql = "select user from User user where user.role =: roleName";
-            return manager.createQuery(sql, User.class)
-                    .setParameter("roleName", role)
-                    .getResultList();
+        return manager.createQuery(sql, User.class)
+                .setParameter("roleName", role)
+                .getResultList();
     }
 
     @Override

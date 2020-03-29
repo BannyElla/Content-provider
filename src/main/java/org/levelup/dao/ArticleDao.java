@@ -3,14 +3,17 @@ package org.levelup.dao;
 import com.sun.istack.Nullable;
 import org.levelup.model.Article;
 import org.levelup.model.Category;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.Objects;
 
+@Repository
 public class ArticleDao extends AbstractDao<Article> implements Dao<Article> {
-
+    @Autowired
     public ArticleDao(EntityManager manager) {
         super(manager);
     }
@@ -51,15 +54,15 @@ public class ArticleDao extends AbstractDao<Article> implements Dao<Article> {
 
     public List<Article> findByCategory(Category category) {
         String sql = "select article from Article article where article.category =: category";
-            return manager.createQuery(sql, Article.class)
-                    .setParameter("category", category)
-                    .getResultList();
+        return manager.createQuery(sql, Article.class)
+                .setParameter("category", category)
+                .getResultList();
     }
 
     public List<Article> findAll() {
         String sql = "select article from Article article";
-            return manager.createQuery(sql, Article.class)
-                    .getResultList();
+        return manager.createQuery(sql, Article.class)
+                .getResultList();
     }
 
     @Override

@@ -1,17 +1,22 @@
 package org.levelup.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 
+@Repository
 public abstract class AbstractDao<T> {
-    protected EntityManager manager;
+    protected final EntityManager manager;
 
+    @Autowired
     public AbstractDao(EntityManager manager) {
         this.manager = manager;
     }
 
     public T update(T obj) {
         verify(obj);
-       return manager.merge(obj);
+        return manager.merge(obj);
     }
 
     protected T persist(T obg) {
