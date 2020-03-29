@@ -5,6 +5,6 @@ public interface Dao<T> {
 
    T update(T entity) throws Exception;
 
-   Long delete(Long id) throws Exception;
+   long delete(long id) throws Exception;
 
 }

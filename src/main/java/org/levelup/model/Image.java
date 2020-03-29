@@ -13,7 +13,7 @@ public class Image {
     @Column(nullable = false)
     private String path;
 
-    @OneToMany
+    @OneToMany(mappedBy = "article_id")
     private List<Article> articles;
 
     public Image() {

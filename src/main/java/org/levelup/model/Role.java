@@ -11,12 +11,12 @@ public class Role {
     private int id;
 
     @Enumerated(EnumType.STRING)
-    private RoleName name;
+    private UserRole name;
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<User> users;
 
-    public Role(RoleName name) {
+    public Role(UserRole name) {
         this.name = name;
     }
     public Role() {
@@ -26,7 +26,7 @@ public class Role {
         return this.id;
     }
 
-    public RoleName getName() {
+    public UserRole getName() {
         return this.name;
     }
 
@@ -34,7 +34,7 @@ public class Role {
         return this.users;
     }
 
-    public void setName(RoleName name) {
+    public void setName(UserRole name) {
         this.name = name;
     }
 

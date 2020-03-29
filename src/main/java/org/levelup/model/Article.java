@@ -8,7 +8,7 @@ import java.util.Date;
 public class Article {
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
     private String header;
@@ -20,6 +20,7 @@ public class Article {
     private Date creationDate = new Date();
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "img_id")
     private Image image;
 
     @ManyToOne(optional = false)
@@ -29,7 +30,7 @@ public class Article {
         return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

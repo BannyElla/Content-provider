@@ -2,14 +2,19 @@ package org.levelup.dao;
 
 import javax.persistence.EntityManager;
 
-public abstract class AbstractDao {
+public abstract class AbstractDao<T> {
     protected EntityManager manager;
 
     public AbstractDao(EntityManager manager) {
         this.manager = manager;
     }
 
-    protected Object persist(Object obg) {
+    public T update(T obj) {
+        verify(obj);
+       return manager.merge(obj);
+    }
+
+    protected T persist(T obg) {
         manager.getTransaction().begin();
         try {
             manager.persist(obg);
@@ -20,4 +25,6 @@ public abstract class AbstractDao {
         manager.getTransaction().commit();
         return obg;
     }
+
+    protected abstract void verify(T obj);
 }

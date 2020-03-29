@@ -1,6 +1,6 @@
 package org.levelup.model;
 
-public enum RoleName {
+public enum UserRole {
     USER,
     ADMIN
 }

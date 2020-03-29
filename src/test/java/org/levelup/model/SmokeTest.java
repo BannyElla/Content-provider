@@ -38,14 +38,14 @@ class SmokeTest {
     @Test
     void createRole() {
         Role role = new Role();
-        role.setName(RoleName.USER);
+        role.setName(UserRole.USER);
         persistObject(role);
     }
 
     @Test
     void createUser() {
         Role role = new Role();
-        role.setName(RoleName.USER);
+        role.setName(UserRole.USER);
 
         User user = new User();
         user.setLogin(TEST_LOGIN);

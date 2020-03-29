@@ -2,15 +2,15 @@ package org.levelup.dao;
 
 import com.sun.istack.Nullable;
 import org.levelup.model.Role;
-import org.levelup.model.RoleName;
 import org.levelup.model.User;
+import org.levelup.model.UserRole;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class UserDao extends AbstractDao {
+public class UserDao extends AbstractDao<User> {
 
     public UserDao(EntityManager manager) {
         super(manager);
@@ -18,7 +18,9 @@ public class UserDao extends AbstractDao {
 
     public User create(String login, String password, Role role) {
         User user = new User(login, password, role);
-        return (User) persist(user);
+        verify(user);
+        verify(user);
+        return persist(user);
     }
 
     @Nullable
@@ -33,14 +35,19 @@ public class UserDao extends AbstractDao {
         }
     }
 
-    public List<User> findByRole(RoleName role) {
+    public List<User> findByRole(UserRole role) {
         String sql = "select user from User user where user.role =: roleName";
-        try {
             return manager.createQuery(sql, User.class)
                     .setParameter("roleName", role)
                     .getResultList();
-        } catch (NoResultException e) {
-            return new ArrayList<>();
+    }
+
+    @Override
+    protected void verify(User user) {
+        Objects.requireNonNull(user.getLogin(), "Login must not be null");
+        Objects.requireNonNull(user.getPassword(), "Password must not be null");
+        if (user.getRole() == null) {
+            user.setRole(new Role(UserRole.USER));
         }
     }
 }

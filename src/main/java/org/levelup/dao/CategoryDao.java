@@ -1,18 +1,15 @@
 package org.levelup.dao;
 
 import com.sun.istack.Nullable;
-import org.hibernate.NonUniqueObjectException;
-import org.hibernate.exception.GenericJDBCException;
 import org.levelup.model.Category;
 import org.levelup.model.VisibilityType;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CategoryDao extends AbstractDao implements Dao<Category> {
+public class CategoryDao extends AbstractDao<Category> implements Dao<Category> {
 
     public CategoryDao(EntityManager manager) {
         super(manager);
@@ -24,31 +21,17 @@ public class CategoryDao extends AbstractDao implements Dao<Category> {
     @Override
     public Category create(Category newCategory) {
         verify(newCategory);
-        return (Category) persist(newCategory);
+        return persist(newCategory);
     }
 
     @Override
-    public Category update(Category category) throws Exception {
-        verify(category);
-        try {
-            manager.getTransaction().begin();
-            Category updatedCategory = manager.find(Category.class, category.getId());
-            updatedCategory.setName(category.getName());
-            updatedCategory.setVisibility(category.getVisibility());
-            manager.getTransaction().commit();
-            return updatedCategory;
-        } catch (GenericJDBCException e) {
-            throw new Exception("Name " + category.getName() + " can't be updated. " + e.getMessage());
-        } catch (NonUniqueObjectException e) {
-            throw new Exception("Name " + category.getName() + " has been already exist. " + e.getMessage());
-        }
-    }
-
-    @Override
-    public Long delete(Long id) throws Exception {
+    public long delete(long id) throws Exception {
         try {
             manager.getTransaction().begin();
             Category category = manager.find(Category.class, id);
+            if (category == null) {
+                throw new Exception("Category with id = " + id + " doesn't exist.");
+            }
             manager.remove(category);
             manager.getTransaction().commit();
             return category.getId();
@@ -79,26 +62,19 @@ public class CategoryDao extends AbstractDao implements Dao<Category> {
 
     private List<Category> findByVisibility(VisibilityType visible) {
         String sql = "select category from Category category where category.visible =: visible";
-        try {
             return manager.createQuery(sql, Category.class)
                     .setParameter("visible", visible)
                     .getResultList();
-        } catch (NoResultException e) {
-            return new ArrayList<>();
-        }
     }
 
     public List<Category> findAll() {
         String sql = "select category from Category category";
-        try {
             return manager.createQuery(sql, Category.class)
                     .getResultList();
-        } catch (NoResultException e) {
-            return new ArrayList<>();
-        }
     }
 
-    private void verify(Category category) {
+    protected void verify(Category category) {
+        Objects.requireNonNull(category, "Category must not be null");
         Objects.requireNonNull(category.getName(), "Category name must not be null");
         if (category.getVisibility() == null) {
             category.setVisibility(VisibilityType.PRIVATE);

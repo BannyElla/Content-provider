@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.levelup.model.Role;
-import org.levelup.model.RoleName;
+import org.levelup.model.UserRole;
 import org.levelup.model.User;
 
 import javax.persistence.EntityManager;
@@ -37,21 +37,21 @@ class UserDaoTest {
     void create() {
         String login = "test login";
         String password = "12345TR!";
-        Role role = new Role(RoleName.USER);
+        Role role = new Role(UserRole.USER);
         User user = new User(login, password, role);
         persistObject(role);
         persistObject(user);
         assertNotNull(user);
         assertNotEquals(0, user.getId(), "User hasn't been created");
         assertEquals(login, user.getLogin());
-        assertEquals(RoleName.USER, user.getRole().getName());
+        assertEquals(UserRole.USER, user.getRole().getName());
     }
 
     @Test
     void findByLogin() {
         String login = "test login 1";
         String password = "fjksdj8o43j";
-        Role role = new Role(RoleName.USER);
+        Role role = new Role(UserRole.USER);
         User user = new User(login, password, role);
         persistObject(role);
         persistObject(user);
@@ -61,14 +61,14 @@ class UserDaoTest {
         assertNotNull(actualUser);
         assertNotEquals(0, actualUser.getId(), "User hasn't been created");
         assertEquals(login, actualUser.getLogin());
-        assertEquals(RoleName.USER, actualUser.getRole().getName());
+        assertEquals(UserRole.USER, actualUser.getRole().getName());
     }
 
     @Test
     void findByRole() {
         String login = "test login 1";
         String password = "fjksdj8o43j";
-        Role role = new Role(RoleName.USER);
+        Role role = new Role(UserRole.USER);
         User user = new User(login, password, role);
         persistObject(role);
         persistObject(user);
@@ -78,7 +78,7 @@ class UserDaoTest {
         assertNotNull(actualUser);
         assertNotEquals(0, actualUser.getId(), "User hasn't been created");
         assertEquals(login, actualUser.getLogin());
-        assertEquals(RoleName.USER, actualUser.getRole().getName());
+        assertEquals(UserRole.USER, actualUser.getRole().getName());
     }
 
     private void persistObject(Object obj) {
