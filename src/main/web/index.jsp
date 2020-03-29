@@ -20,7 +20,7 @@
     <c:when test="${empty sessionScope['verifiedUserName']}">
         <br>
         <p>
-            <a href="login">Зарегистрируйтесь</a>, чтобы получить доступ к закрытым разделам:
+            <a href="login">Войдите</a> или <a href="registration">зарегистрируйтесь</a>, чтобы получить доступ к закрытым разделам:
         </p>
         <div style="color: gray">Дженерики</div>
         <div style="color: gray">Потоки ввода/вывода</div>

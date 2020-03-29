@@ -4,6 +4,7 @@
     <title>Login</title>
 </head>
 <body>
+<h1>Вход</h1>
 <form method="POST" action="login" enctype="application/x-www-form-urlencoded">
     <p>
         <label>

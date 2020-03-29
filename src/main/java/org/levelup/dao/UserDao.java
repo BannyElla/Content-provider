@@ -19,9 +19,8 @@ public class UserDao extends AbstractDao<User> {
         super(manager);
     }
 
-    public User create(String login, String password, Role role) {
-        User user = new User(login, password, role);
-        verify(user);
+    public User create(String login, String password, UserRole role) {
+        User user = new User(login, password, new Role(role));
         verify(user);
         return persist(user);
     }
@@ -49,7 +48,7 @@ public class UserDao extends AbstractDao<User> {
     protected void verify(User user) {
         Objects.requireNonNull(user.getLogin(), "Login must not be null");
         Objects.requireNonNull(user.getPassword(), "Password must not be null");
-        if (user.getRole() == null) {
+        if (user.getRole().getName() == null) {
             user.setRole(new Role(UserRole.USER));
         }
     }
