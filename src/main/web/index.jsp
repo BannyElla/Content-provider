@@ -33,6 +33,10 @@
     </c:otherwise>
 </c:choose>
 <br>
-
+<c:if test="${not empty sessionScope['message']}">
+    <p>
+        отладочное сообщение: ${sessionScope['message']}
+    </p>
+</c:if>
 </body>
 </html>

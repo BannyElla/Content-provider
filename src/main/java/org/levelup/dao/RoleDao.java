@@ -3,10 +3,12 @@ package org.levelup.dao;
 import com.sun.istack.Nullable;
 import org.levelup.model.Role;
 import org.levelup.model.UserRole;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+@Repository
 public class RoleDao extends AbstractDao<Role>  implements Dao<Role>{
     public RoleDao(EntityManager manager) {
         super(manager);

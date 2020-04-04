@@ -7,7 +7,12 @@ public class AppConstants {
     public static final String ADMIN_LOGIN = "admin";
     public static final String ADMIN_PASSWORD = "123";
 
-    /** Atribute names */
+    public static final String LOGIN = "login";
+    public static final String REDIRECT = "redirect:/";
+    public static final String REGISTRATION = "registration";
+    private static final String PAGES_CATALOG = "pages";
+
+    /** Attribute names */
     public static final String FACTORY_ATTRIBUTE = "factory";
     public static final String VERIFIED_USER_NAME_ATTRIBUTE = "verifiedUserName";
     public static final String FORM_ATTRIBUTE = "form";
@@ -18,15 +23,15 @@ public class AppConstants {
     public static final String PASSWORD_PARAMETER = "passwordField";
 
     /** Pages URL */
-    public static final String LOGIN_PAGE = "login?login=";
+    public static final String LOGIN_PAGE = String.format("%s?%s=", LOGIN, LOGIN);
 
-    /** Servlet URL patterns */
-    public static final String LOGIN_SERVLET = "/login";
-    public static final String REGISTRATION_SERVLET = "/registration";
+    /** Controller URL patterns */
+    public static final String LOGIN_PATH = "/" + LOGIN;
+    public static final String REGISTRATION_PATH = "/" + REGISTRATION;
 
     /** JSP URL */
-    public static final String LOGIN_JSP = "/pages/login.jsp";
-    public static final String REGISTRATION_JSP = "/pages/registration.jsp";
+    public static final String LOGIN_JSP = String.format("/%s/%s.jsp", PAGES_CATALOG, LOGIN);
+    public static final String REGISTRATION_JSP = String.format("/%s/%s.jsp", PAGES_CATALOG, REGISTRATION);
 
     private AppConstants() throws Exception {
         throw new Exception("It's class with constants");

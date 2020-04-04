@@ -1,6 +1,6 @@
 package org.levelup.tests;
 
-import org.levelup.web.ProdConfiguration;
+import org.levelup.web.configuration.ProdConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
