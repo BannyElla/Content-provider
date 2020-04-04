@@ -29,5 +29,20 @@ public abstract class AbstractDao<T> {
         return obg;
     }
 
+    public long delete(long id, Class<T> type) throws Exception {
+        try {
+            manager.getTransaction().begin();
+            T article = manager.find(type, id);
+            if (article == null) {
+                throw new Exception(type + " with id = " + id + " doesn't exist.");
+            }
+            manager.remove(article);
+            manager.getTransaction().commit();
+            return id;
+        } catch (Exception e) {
+            throw new Exception(type + " id = " + id + " can't be deleted. " + e.getMessage());
+        }
+    }
+
     protected abstract void verify(T obj);
 }

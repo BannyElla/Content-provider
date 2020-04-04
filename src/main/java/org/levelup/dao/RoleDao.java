@@ -32,20 +32,8 @@ public class RoleDao extends AbstractDao<Role>  implements Dao<Role>{
         }
     }
 
-    @Override
     public long delete(long id) throws Exception {
-        try {
-            manager.getTransaction().begin();
-            Role role = manager.find(Role.class, id);
-            if (role == null) {
-                throw new Exception("Role with id = " + id + " doesn't exist.");
-            }
-            manager.remove(role);
-            manager.getTransaction().commit();
-            return role.getId();
-        } catch (Exception e) {
-            throw new Exception("Role id = " + id + " can't be deleted. " + e.getMessage());
-        }
+        return delete(id, Role.class);
     }
 
     @Override

@@ -24,20 +24,8 @@ public class ArticleDao extends AbstractDao<Article> implements Dao<Article> {
         return persist(article);
     }
 
-    @Override
     public long delete(long id) throws Exception {
-        try {
-            manager.getTransaction().begin();
-            Article article = manager.find(Article.class, id);
-            if (article == null) {
-                throw new Exception("Article with id = " + id + " doesn't exist.");
-            }
-            manager.remove(article);
-            manager.getTransaction().commit();
-            return id;
-        } catch (Exception e) {
-            throw new Exception("Article id = " + id + " can't be deleted. " + e.getMessage());
-        }
+        return delete(id, Article.class);
     }
 
     @Nullable

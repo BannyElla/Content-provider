@@ -27,20 +27,8 @@ public class CategoryDao extends AbstractDao<Category> implements Dao<Category> 
         return persist(newCategory);
     }
 
-    @Override
     public long delete(long id) throws Exception {
-        try {
-            manager.getTransaction().begin();
-            Category category = manager.find(Category.class, id);
-            if (category == null) {
-                throw new Exception("Category with id = " + id + " doesn't exist.");
-            }
-            manager.remove(category);
-            manager.getTransaction().commit();
-            return category.getId();
-        } catch (Exception e) {
-            throw new Exception("Category id = " + id + " can't be deleted. " + e.getMessage());
-        }
+        return delete(id, Category.class);
     }
 
     @Nullable
