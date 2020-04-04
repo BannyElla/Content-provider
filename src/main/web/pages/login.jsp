@@ -23,5 +23,10 @@
         <input type="submit" value="Login">
     </p>
 </form>
+<c:if test="${not empty sessionScope['message']}">
+    <p>
+        Привет, ${sessionScope['message']}!
+    </p>
+</c:if>
 </body>
 </html>

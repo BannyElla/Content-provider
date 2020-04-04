@@ -11,6 +11,7 @@ public class AppConstants {
     public static final String FACTORY_ATTRIBUTE = "factory";
     public static final String VERIFIED_USER_NAME_ATTRIBUTE = "verifiedUserName";
     public static final String FORM_ATTRIBUTE = "form";
+    public static final String ALL_ARTICLES_ATTRIBUTE = "all_articles";
 
     /** Parameter names */
     public static final String USER_NAME_PARAMETER = "usernameField";

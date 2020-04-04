@@ -13,7 +13,7 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private UserRole name;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     private List<User> users;
 
     public Role(UserRole name) {

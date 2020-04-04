@@ -4,8 +4,6 @@ import org.levelup.dao.UserDao;
 import org.levelup.model.User;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,9 +34,7 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect(LOGIN_PAGE + login);
             return;
         }
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("ProdDb");
-        EntityManager manager = factory.createEntityManager();
-        //EntityManager manager = PersistenceUtils.createManager(req.getServletContext());
+        EntityManager manager = PersistenceUtils.createManager(req.getServletContext());
         UserDao dao = new UserDao(manager);
         User user = null;
         try {
@@ -48,6 +44,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         if (user == null) {
+            req.getSession().setAttribute("message", "user is null. login= " + login);
             resp.sendRedirect(LOGIN_PAGE + login);
             return;
         }
@@ -57,6 +54,7 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath());
         } else {
             resp.sendRedirect(LOGIN_PAGE + login);
+            req.getSession().setAttribute("message", "wrong login or password");
         }
     }
 }

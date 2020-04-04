@@ -19,8 +19,8 @@ public class UserDao extends AbstractDao<User> {
         super(manager);
     }
 
-    public User create(String login, String password, UserRole role) {
-        User user = new User(login, password, new Role(role));
+    public User create(String login, String password, Role role) {
+        User user = new User(login, password, role);
         verify(user);
         return persist(user);
     }
@@ -37,10 +37,10 @@ public class UserDao extends AbstractDao<User> {
         }
     }
 
-    public List<User> findByRole(UserRole role) {
-        String sql = "select user from User user where user.role =: roleName";
+    public List<User> findByRole(Role role) {
+        String sql = "select user from User user where user.role =: role";
         return manager.createQuery(sql, User.class)
-                .setParameter("roleName", role)
+                .setParameter("role", role)
                 .getResultList();
     }
 

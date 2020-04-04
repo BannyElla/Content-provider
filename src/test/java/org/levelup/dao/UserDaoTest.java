@@ -4,12 +4,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.levelup.model.Role;
-import org.levelup.model.UserRole;
 import org.levelup.model.User;
+import org.levelup.model.UserRole;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,13 +39,14 @@ class UserDaoTest {
         String login = "test login";
         String password = "12345TR!";
         Role role = new Role(UserRole.USER);
-        User user = new User(login, password, role);
         persistObject(role);
-        persistObject(user);
-        assertNotNull(user);
-        assertNotEquals(0, user.getId(), "User hasn't been created");
-        assertEquals(login, user.getLogin());
-        assertEquals(UserRole.USER, user.getRole().getName());
+
+        UserDao userDao = new UserDao(manager);
+        User actuallUser = userDao.create(login, password, role);
+        assertNotNull(actuallUser);
+        assertNotEquals(0, actuallUser.getId(), "User hasn't been created");
+        assertEquals(login, actuallUser.getLogin());
+        assertEquals(UserRole.USER, actuallUser.getRole().getName());
     }
 
     @Test
@@ -74,11 +76,11 @@ class UserDaoTest {
         persistObject(user);
 
         UserDao userDao = new UserDao(manager);
-        User actualUser = userDao.findByLogin(login);
-        assertNotNull(actualUser);
-        assertNotEquals(0, actualUser.getId(), "User hasn't been created");
-        assertEquals(login, actualUser.getLogin());
-        assertEquals(UserRole.USER, actualUser.getRole().getName());
+        List<User> actualUsers = userDao.findByRole(role);
+        assertNotNull(actualUsers);
+        assertNotEquals(0, actualUsers.get(0).getId(), "User hasn't been created");
+        assertEquals(login, actualUsers.get(0).getLogin());
+        assertEquals(UserRole.USER, actualUsers.get(0).getRole().getName());
     }
 
     private void persistObject(Object obj) {

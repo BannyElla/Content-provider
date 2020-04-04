@@ -1,32 +1,38 @@
 package org.levelup.tests;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.levelup.dao.ArticleDao;
 import org.levelup.dao.CategoryDao;
+import org.levelup.model.Article;
 import org.levelup.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ContextConfiguration(classes = TestConfiguration.class)
 public class SmokeDaoTest {
     @Autowired
     private CategoryDao categoryDao;
-    /*@Autowired
-    private ArticleDao articleDao;*/
+    @Autowired
+    private ArticleDao articleDao;
 
     @Test
     void smokeTest() {
         Category newCategory = new Category();
         newCategory.setName("category1");
         Category category = categoryDao.create(newCategory);
-      /*  Article newArticle = new Article();
+        Article newArticle = new Article();
         newArticle.setHeader("header");
         newArticle.setText("text");
         newArticle.setCategory(category);
-        Article article = articleDao.create(newArticle);*/
+        articleDao.create(newArticle);
     }
 
 }

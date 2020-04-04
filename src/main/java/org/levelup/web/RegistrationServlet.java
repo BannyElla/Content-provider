@@ -1,11 +1,12 @@
 package org.levelup.web;
 
+import org.levelup.dao.RoleDao;
 import org.levelup.dao.UserDao;
+import org.levelup.model.Role;
+import org.levelup.model.User;
 import org.levelup.model.UserRole;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,16 +33,18 @@ public class RegistrationServlet extends HttpServlet {
         String login = req.getParameter(USER_NAME_PARAMETER);
         String password = req.getParameter(PASSWORD_PARAMETER);
 
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory(DATA_BASE);
-        EntityManager manager = factory.createEntityManager();
-        // EntityManager manager = PersistenceUtils.createManager(req.getServletContext());
-        UserDao user = new UserDao(manager);
+        EntityManager manager = PersistenceUtils.createManager(req.getServletContext());
+        UserDao users = new UserDao(manager);
+        RoleDao roles = new RoleDao(manager);
+        Role userRole = roles.findByName(UserRole.USER);
+        User user = null;
         try {
-            user.create(login, password, UserRole.USER);
+            user = users.create(login, password, userRole);
         } finally {
             manager.close();
         }
-        resp.sendRedirect(req.getContextPath() + LOGIN_PAGE + login);
+        req.getSession().setAttribute("message", "registration id = " + user.getId());
+        resp.sendRedirect(req.getContextPath());
     }
 
 }
