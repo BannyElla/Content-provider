@@ -22,6 +22,16 @@ public class CategoryDao extends AbstractDao<Category> implements Dao<Category> 
         manager.persist(newCategory);
         return newCategory;
     }
+
+    @Transactional
+    public Category update(Category category) {
+        verify(category);
+        Category oldCategory = manager.find(Category.class, category.getId());
+        oldCategory.setName(category.getName());
+        oldCategory.setVisibility(category.getVisibility());
+        return manager.merge(oldCategory);
+    }
+
     @Transactional
     public long delete(long id) throws Exception {
         return delete(id, Category.class);

@@ -1,9 +1,6 @@
 package org.levelup.dao;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.levelup.model.Article;
 import org.levelup.model.Category;
@@ -98,8 +95,8 @@ class ArticleDaoTest {
         updatedArticle.setText(newText);
         updatedArticle.setCategory(newCategory);
 
-        Article actualArticle = dao.update(updatedArticle);
-        assertOneArtile(newHeader, newText, newCategoryName, actualArticle, null);
+        Article updatedArticleEntity = dao.update(updatedArticle);
+        assertOneArtile(newHeader, newText, newCategoryName, updatedArticleEntity, null);
     }
 
     @Test

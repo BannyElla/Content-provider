@@ -11,7 +11,7 @@ import javax.persistence.NoResultException;
 
 @Repository
 @Qualifier("RoleDao")
-public class RoleDao extends AbstractDao<Role>  implements Dao<Role>{
+public class RoleDao extends AbstractDao<Role> implements Dao<Role> {
     @Override
     @Transactional
     public Role create(Role newRole) {
@@ -31,6 +31,7 @@ public class RoleDao extends AbstractDao<Role>  implements Dao<Role>{
             return null;
         }
     }
+
     @Transactional
     public long delete(long id) throws Exception {
         return delete(id, Role.class);
@@ -39,7 +40,12 @@ public class RoleDao extends AbstractDao<Role>  implements Dao<Role>{
     @Override
     protected void verify(Role role) {
         if (role == null) {
-           role = new Role(UserRole.USER);
+            role = new Role(UserRole.USER);
         }
+    }
+
+    @Override
+    public Role update(Role role) throws Exception {
+        throw new Exception("The method isn't implemented");
     }
 }

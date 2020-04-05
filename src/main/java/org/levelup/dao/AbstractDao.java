@@ -10,12 +10,6 @@ public abstract class AbstractDao<T> {
     protected EntityManager manager;
 
     @Transactional
-    public T update(T obj) {
-        verify(obj);
-        return manager.merge(obj);
-    }
-
-    @Transactional
     public long delete(long id, Class<T> type) throws Exception {
             T obj = manager.find(type, id);
             if (obj == null) {

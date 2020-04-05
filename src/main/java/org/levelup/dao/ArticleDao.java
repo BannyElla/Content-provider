@@ -20,6 +20,18 @@ public class ArticleDao extends AbstractDao<Article> implements Dao<Article> {
         manager.persist(article);
         return article;
     }
+
+    @Transactional
+    public Article update(Article article) {
+        verify(article);
+        Article oldArticle = manager.find(Article.class, article.getId());
+        oldArticle.setHeader(article.getHeader());
+        oldArticle.setText(article.getText());
+        oldArticle.setImage(article.getImage());
+        oldArticle.setCategory(article.getCategory());
+        return manager.merge(oldArticle);
+    }
+
     @Transactional
     public long delete(long id) throws Exception {
         return delete(id, Article.class);

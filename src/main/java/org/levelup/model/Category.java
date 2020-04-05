@@ -1,10 +1,13 @@
 package org.levelup.model;
 
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "categories")
+@ToString
 public class Category {
     @Id
     @GeneratedValue

@@ -1,9 +1,6 @@
 package org.levelup.dao;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.levelup.model.Category;
 import org.levelup.model.VisibilityType;
@@ -86,8 +83,7 @@ class CategoryDaoTest {
         updatedCategory.setVisibility(VisibilityType.PRIVATE);
 
         Category actualCategory = dao.update(updatedCategory);
-
-        assertNotNull(actualCategory);
+                assertNotNull(actualCategory);
         assertEquals(newName, actualCategory.getName());
         assertEquals(VisibilityType.PRIVATE, actualCategory.getVisibility());
     }
