@@ -3,8 +3,16 @@ package org.levelup.dao;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.levelup.model.Category;
 import org.levelup.model.VisibilityType;
+import org.levelup.tests.TestConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,16 +21,21 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@ContextConfiguration(classes = TestConfiguration.class)
+@WebMvcTest
 class CategoryDaoTest {
     private EntityManagerFactory factory;
     private EntityManager manager;
+    @Autowired
     private CategoryDao dao;
 
     @BeforeEach
     void setUp() {
         factory = Persistence.createEntityManagerFactory("TestDb");
         manager = factory.createEntityManager();
-        dao = new CategoryDao(manager);
     }
 
     @AfterEach
@@ -61,7 +74,7 @@ class CategoryDaoTest {
     }
 
     @Test
-    void update() throws Exception {
+    void update() {
         String name = "category 12";
         String newName = "category 13";
         Category newCategory = new Category();

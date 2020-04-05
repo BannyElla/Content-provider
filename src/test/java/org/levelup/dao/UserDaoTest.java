@@ -3,9 +3,17 @@ package org.levelup.dao;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.levelup.model.Role;
 import org.levelup.model.User;
 import org.levelup.model.UserRole;
+import org.levelup.tests.TestConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,9 +22,16 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@ContextConfiguration(classes = TestConfiguration.class)
+@WebMvcTest
 class UserDaoTest {
     private EntityManagerFactory factory;
     private EntityManager manager;
+    @Autowired
+    UserDao userDao;
 
     @BeforeEach
     void setUp() {
@@ -41,7 +56,6 @@ class UserDaoTest {
         Role role = new Role(UserRole.USER);
         persistObject(role);
 
-        UserDao userDao = new UserDao(manager);
         User actuallUser = userDao.create(login, password, role);
         assertNotNull(actuallUser);
         assertNotEquals(0, actuallUser.getId(), "User hasn't been created");
@@ -58,7 +72,6 @@ class UserDaoTest {
         persistObject(role);
         persistObject(user);
 
-        UserDao userDao = new UserDao(manager);
         User actualUser = userDao.findByLogin(login);
         assertNotNull(actualUser);
         assertNotEquals(0, actualUser.getId(), "User hasn't been created");
@@ -75,7 +88,6 @@ class UserDaoTest {
         persistObject(role);
         persistObject(user);
 
-        UserDao userDao = new UserDao(manager);
         List<User> actualUsers = userDao.findByRole(role);
         assertNotNull(actualUsers);
         assertNotEquals(0, actualUsers.get(0).getId(), "User hasn't been created");

@@ -3,9 +3,17 @@ package org.levelup.dao;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.levelup.model.Article;
 import org.levelup.model.Category;
 import org.levelup.model.Image;
+import org.levelup.tests.TestConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,18 +22,24 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@ContextConfiguration(classes = TestConfiguration.class)
+@WebMvcTest
 class ArticleDaoTest {
     private static final String TEST_IMAGE_PATH = "/test/image/path";
     private EntityManagerFactory factory;
     private EntityManager manager;
+    @Autowired
     private ArticleDao dao;
-    private Image image = new Image(TEST_IMAGE_PATH);
+    private Image image;
 
     @BeforeEach
     void setUp() {
         factory = Persistence.createEntityManagerFactory("TestDb");
         manager = factory.createEntityManager();
-        dao = new ArticleDao(manager);
+        image = new Image(TEST_IMAGE_PATH);
     }
 
     @AfterEach
@@ -58,7 +72,7 @@ class ArticleDaoTest {
     }
 
     @Test
-    void update() throws Exception {
+    void update() {
         String header = "header11";
         String text = "text text 11";
         String categoryName = "category 11";
