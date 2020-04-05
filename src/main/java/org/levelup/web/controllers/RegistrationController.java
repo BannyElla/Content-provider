@@ -24,7 +24,7 @@ public class RegistrationController {
     @Autowired
     RoleDao roles;
 
-    @GetMapping(path = "/registration")
+    @GetMapping(path = REGISTRATION_PATH)
     public String registrationPage(ModelMap model) {
         RegistrationForm form = new RegistrationForm();
         form.setLogin("");
@@ -33,7 +33,7 @@ public class RegistrationController {
         return REGISTRATION;
     }
 
-    @PostMapping(path = "/registration")
+    @PostMapping(path = REGISTRATION_PATH)
     public String processRegistration(HttpSession session,
                                       @RequestParam(USER_NAME_PARAMETER) String login,
                                       @RequestParam(PASSWORD_PARAMETER) String password) {

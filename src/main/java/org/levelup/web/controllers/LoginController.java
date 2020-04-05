@@ -17,12 +17,12 @@ public class LoginController {
     @Autowired
     UserDao dao;
 
-    @GetMapping(path = "/login")
+    @GetMapping(path = LOGIN_PATH)
     public String loginPage(@RequestParam(required = false) String login) {
         return "login";
     }
 
-    @PostMapping(path = "/login")
+    @PostMapping(path = LOGIN_PATH)
     public String doPost(HttpSession session,
                        @RequestParam(USER_NAME_PARAMETER) String login,
                        @RequestParam(PASSWORD_PARAMETER) String password) {

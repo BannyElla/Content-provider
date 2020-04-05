@@ -10,7 +10,6 @@ import org.levelup.model.Category;
 import org.levelup.model.Image;
 import org.levelup.tests.TestConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -26,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ContextConfiguration(classes = TestConfiguration.class)
-@WebMvcTest
 class ArticleDaoTest {
     private static final String TEST_IMAGE_PATH = "/test/image/path";
     private EntityManagerFactory factory;
