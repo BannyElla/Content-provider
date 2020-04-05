@@ -1,20 +1,19 @@
 package org.levelup.web.controllers;
 
-import org.levelup.dao.Dao;
 import org.levelup.dao.RoleDao;
 import org.levelup.dao.UserDao;
 import org.levelup.model.Role;
-import org.levelup.model.User;
 import org.levelup.model.UserRole;
 import org.levelup.web.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpSession;
 
 import static org.levelup.web.AppConstants.*;
 
@@ -23,27 +22,39 @@ public class RegistrationController {
     @Autowired
     UserDao users;
     @Autowired
-    Dao<Role> rolesDao;
+    RoleDao roles;
 
-    @GetMapping(path = REGISTRATION_PATH)
-    public String registrationPage(ModelMap model) {
+    @ModelAttribute("form")
+    public RegistrationForm createForm() {
         RegistrationForm form = new RegistrationForm();
         form.setLogin("");
         form.setPassword("");
-        model.addAttribute("form", form);
+        return form;
+    }
+
+    @GetMapping(path = REGISTRATION_PATH)
+    public String registrationPage(ModelMap model,  @ModelAttribute("form") RegistrationForm form) {
+        model.addAttribute("form", createForm());
         return REGISTRATION;
     }
 
     @PostMapping(path = REGISTRATION_PATH)
-    public String processRegistration(HttpSession session,
-                                      @RequestParam(USER_NAME_PARAMETER) String login,
-                                      @RequestParam(PASSWORD_PARAMETER) String password) {
-        RoleDao roles = (RoleDao) rolesDao;
+    public String processRegistration(ModelMap model,
+                                      @Validated
+                                      @ModelAttribute("form") RegistrationForm form,
+                                      BindingResult validationResult) {
+        model.addAttribute("form", createForm());
         Role userRole = roles.findByName(UserRole.USER);
-        User user = users.create(login, password, userRole);
-
-        session.setAttribute("message", "registration id = " + user.getId());
-        return REDIRECT + LOGIN_PAGE + login;
+        try {
+            users.create(form.getLogin(), form.getPassword(), userRole);
+        } catch (Exception e) {
+            validationResult.addError(
+                    new FieldError("form", "login",
+                            "User with login " + form.getLogin()
+                                    + " is already registered."));
+            return REGISTRATION;
+        }
+        return REDIRECT + LOGIN_PAGE + form.getLogin();
     }
 
 }
