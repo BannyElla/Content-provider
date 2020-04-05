@@ -4,25 +4,21 @@ import com.sun.istack.Nullable;
 import org.levelup.model.Role;
 import org.levelup.model.User;
 import org.levelup.model.UserRole;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.Objects;
 
 @Repository
 public class UserDao extends AbstractDao<User> {
-    @Autowired
-    public UserDao(EntityManager manager) {
-        super(manager);
-    }
-
+    @Transactional
     public User create(String login, String password, Role role) {
         User user = new User(login, password, role);
         verify(user);
-        return persist(user);
+        manager.persist(user);
+        return user;
     }
 
     @Nullable

@@ -24,21 +24,21 @@ class RoleDaoTest {
 
     @Test
     void create() {
-        Role role = new Role(UserRole.USER);
+        Role role = new Role(UserRole.TEST_ROLE);
         Role actualRole = dao.create(role);
 
         creatingAssertions(actualRole);
-        assertEquals(UserRole.USER, actualRole.getName());
+        assertEquals(UserRole.TEST_ROLE, actualRole.getName());
     }
 
     @Test
     void findByName() {
-        Role role = new Role(UserRole.ADMIN);
+        Role role = new Role(UserRole.TEST_ROLE);
         dao.create(role);
 
-        Role actualRole = dao.findByName(UserRole.ADMIN);
+        Role actualRole = dao.findByName(UserRole.TEST_ROLE);
         creatingAssertions(actualRole);
-        assertEquals(UserRole.ADMIN, actualRole.getName());
+        assertEquals(UserRole.TEST_ROLE, actualRole.getName());
     }
 
     private void creatingAssertions(Role role) {

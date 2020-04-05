@@ -38,6 +38,11 @@ public class LoginController {
         }
            User user = dao.findByLogin(login);
 
+        if (user == null) {
+            session.setAttribute("message", "wrong login or password");
+            return REDIRECT + LOGIN_PAGE;
+        }
+
         if (user != null && password.equals(user.getPassword())) {
             session.setAttribute(VERIFIED_USER_NAME_ATTRIBUTE, login);
             return REDIRECT;

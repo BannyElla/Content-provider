@@ -2,5 +2,6 @@ package org.levelup.model;
 
 public enum UserRole {
     USER,
-    ADMIN
+    ADMIN,
+    TEST_ROLE
 }

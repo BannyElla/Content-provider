@@ -1,5 +1,6 @@
 package org.levelup.web.controllers;
 
+import org.levelup.dao.Dao;
 import org.levelup.dao.RoleDao;
 import org.levelup.dao.UserDao;
 import org.levelup.model.Role;
@@ -22,7 +23,7 @@ public class RegistrationController {
     @Autowired
     UserDao users;
     @Autowired
-    RoleDao roles;
+    Dao<Role> rolesDao;
 
     @GetMapping(path = REGISTRATION_PATH)
     public String registrationPage(ModelMap model) {
@@ -37,7 +38,7 @@ public class RegistrationController {
     public String processRegistration(HttpSession session,
                                       @RequestParam(USER_NAME_PARAMETER) String login,
                                       @RequestParam(PASSWORD_PARAMETER) String password) {
-
+        RoleDao roles = (RoleDao) rolesDao;
         Role userRole = roles.findByName(UserRole.USER);
         User user = users.create(login, password, userRole);
 

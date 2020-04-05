@@ -8,7 +8,9 @@ import org.levelup.model.Role;
 import org.levelup.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
 import java.util.List;
@@ -24,9 +26,11 @@ public class StartupListener {
     @Autowired
     ArticleDao articles;
 
-    public void applicationStarted(ContextRefreshedEvent event, ModelMap model) {
+    @EventListener
+    @Transactional
+    public void applicationStarted(ContextRefreshedEvent event) {
         checkAdmin();
-        getArticles(model);
+        //getArticles(model);
     }
 
     private void checkAdmin() {

@@ -3,21 +3,21 @@ package org.levelup.dao;
 import com.sun.istack.Nullable;
 import org.levelup.model.Role;
 import org.levelup.model.UserRole;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 @Repository
+@Qualifier("RoleDao")
 public class RoleDao extends AbstractDao<Role>  implements Dao<Role>{
-    public RoleDao(EntityManager manager) {
-        super(manager);
-    }
-
     @Override
+    @Transactional
     public Role create(Role newRole) {
         verify(newRole);
-        return persist(newRole);
+        manager.persist(newRole);
+        return newRole;
     }
 
     @Nullable
@@ -31,7 +31,7 @@ public class RoleDao extends AbstractDao<Role>  implements Dao<Role>{
             return null;
         }
     }
-
+    @Transactional
     public long delete(long id) throws Exception {
         return delete(id, Role.class);
     }

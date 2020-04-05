@@ -3,30 +3,26 @@ package org.levelup.dao;
 import com.sun.istack.Nullable;
 import org.levelup.model.Category;
 import org.levelup.model.VisibilityType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.Objects;
 
 @Repository
 public class CategoryDao extends AbstractDao<Category> implements Dao<Category> {
-    @Autowired
-    public CategoryDao(EntityManager manager) {
-        super(manager);
-    }
-
     /**
      * By default the method sets VisibilityType.PRIVATE to visibility
      */
     @Override
+    @Transactional
     public Category create(Category newCategory) {
         verify(newCategory);
-        return persist(newCategory);
+        manager.persist(newCategory);
+        return newCategory;
     }
-
+    @Transactional
     public long delete(long id) throws Exception {
         return delete(id, Category.class);
     }

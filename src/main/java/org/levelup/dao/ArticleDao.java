@@ -3,27 +3,24 @@ package org.levelup.dao;
 import com.sun.istack.Nullable;
 import org.levelup.model.Article;
 import org.levelup.model.Category;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.Objects;
 
 @Repository
 public class ArticleDao extends AbstractDao<Article> implements Dao<Article> {
-    @Autowired
-    public ArticleDao(EntityManager manager) {
-        super(manager);
-    }
 
     @Override
+    @Transactional
     public Article create(Article article) {
         verify(article);
-        return persist(article);
+        manager.persist(article);
+        return article;
     }
-
+    @Transactional
     public long delete(long id) throws Exception {
         return delete(id, Article.class);
     }

@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserDaoTest {
     private EntityManagerFactory factory;
     private EntityManager manager;
+    private Role role;
     @Autowired
     UserDao userDao;
 
@@ -35,6 +36,9 @@ class UserDaoTest {
     void setUp() {
         factory = Persistence.createEntityManagerFactory("TestDb");
         manager = factory.createEntityManager();
+        role = manager.createQuery("from Role where name = : roleName", Role.class)
+                .setParameter("roleName", UserRole.USER)
+                .getSingleResult();
     }
 
     @AfterEach
@@ -51,8 +55,6 @@ class UserDaoTest {
     void create() {
         String login = "test login";
         String password = "12345TR!";
-        Role role = new Role(UserRole.USER);
-        persistObject(role);
 
         User actuallUser = userDao.create(login, password, role);
         assertNotNull(actuallUser);
@@ -65,9 +67,7 @@ class UserDaoTest {
     void findByLogin() {
         String login = "test login 1";
         String password = "fjksdj8o43j";
-        Role role = new Role(UserRole.USER);
         User user = new User(login, password, role);
-        persistObject(role);
         persistObject(user);
 
         User actualUser = userDao.findByLogin(login);
@@ -81,9 +81,7 @@ class UserDaoTest {
     void findByRole() {
         String login = "test login 1";
         String password = "fjksdj8o43j";
-        Role role = new Role(UserRole.USER);
         User user = new User(login, password, role);
-        persistObject(role);
         persistObject(user);
 
         List<User> actualUsers = userDao.findByRole(role);

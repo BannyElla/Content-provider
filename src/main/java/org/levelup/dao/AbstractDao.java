@@ -1,47 +1,28 @@
 package org.levelup.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 public abstract class AbstractDao<T> {
-    protected final EntityManager manager;
+    @PersistenceContext
+    protected EntityManager manager;
 
-    @Autowired
-    public AbstractDao(EntityManager manager) {
-        this.manager = manager;
-    }
-
+    @Transactional
     public T update(T obj) {
         verify(obj);
         return manager.merge(obj);
     }
 
-    protected T persist(T obg) {
-        manager.getTransaction().begin();
-        try {
-            manager.persist(obg);
-        } catch (Exception e) {
-            manager.getTransaction().rollback();
-            throw e;
-        }
-        manager.getTransaction().commit();
-        return obg;
-    }
-
+    @Transactional
     public long delete(long id, Class<T> type) throws Exception {
-        try {
-            manager.getTransaction().begin();
-            T article = manager.find(type, id);
-            if (article == null) {
+            T obj = manager.find(type, id);
+            if (obj == null) {
                 throw new Exception(type + " with id = " + id + " doesn't exist.");
             }
-            manager.remove(article);
-            manager.getTransaction().commit();
+            manager.remove(obj);
             return id;
-        } catch (Exception e) {
-            throw new Exception(type + " id = " + id + " can't be deleted. " + e.getMessage());
-        }
     }
 
     protected abstract void verify(T obj);

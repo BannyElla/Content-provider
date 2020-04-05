@@ -6,9 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
-
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 @Configuration
 @ComponentScan(basePackages = {"org.levelup.web", "org.levelup.dao"},
@@ -17,7 +15,9 @@ import javax.persistence.Persistence;
                 classes = {ProdConfiguration.class, WebConfiguration.class}))
 public class TestConfiguration {
     @Bean
-    public EntityManagerFactory getEntityManagerFactory() {
-        return Persistence.createEntityManagerFactory("TestDb");
+    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
+        LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
+        bean.setPersistenceUnitName("TestDb");
+        return bean;
     }
 }
