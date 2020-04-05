@@ -18,7 +18,10 @@ public class LoginController {
     UserDao dao;
 
     @GetMapping(path = LOGIN_PATH)
-    public String loginPage(@RequestParam(required = false) String login) {
+    public String loginPage(HttpSession session,@RequestParam(required = false) String login) {
+        if (session.getAttribute(VERIFIED_USER_NAME_ATTRIBUTE) != null) {
+            return REDIRECT;
+        }
         return "login";
     }
 
@@ -26,7 +29,7 @@ public class LoginController {
     public String doPost(HttpSession session,
                        @RequestParam(USER_NAME_PARAMETER) String login,
                        @RequestParam(PASSWORD_PARAMETER) String password) {
-        if (session.getAttribute(USER_NAME_PARAMETER) != null) {
+        if (session.getAttribute(VERIFIED_USER_NAME_ATTRIBUTE) != null) {
             return REDIRECT;
         }
 
@@ -35,12 +38,7 @@ public class LoginController {
         }
            User user = dao.findByLogin(login);
 
-        if (user == null) {
-            session.setAttribute("message", "user is null. login= " + login);
-            return REDIRECT + LOGIN_PAGE;
-        }
-
-        if (login.equals(user.getLogin()) && password.equals(user.getPassword())) {
+        if (user != null && password.equals(user.getPassword())) {
             session.setAttribute(VERIFIED_USER_NAME_ATTRIBUTE, login);
             return REDIRECT;
         } else {
