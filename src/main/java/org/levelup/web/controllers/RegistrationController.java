@@ -24,32 +24,30 @@ public class RegistrationController {
     @Autowired
     RoleDao roles;
 
-    @ModelAttribute("form")
+    @ModelAttribute(FORM_ATTRIBUTE)
     public RegistrationForm createForm() {
-        RegistrationForm form = new RegistrationForm();
-        form.setLogin("");
-        form.setPassword("");
+        RegistrationForm form = new RegistrationForm("", "");
         return form;
     }
 
     @GetMapping(path = REGISTRATION_PATH)
-    public String registrationPage(ModelMap model,  @ModelAttribute("form") RegistrationForm form) {
-        model.addAttribute("form", createForm());
+    public String registrationPage(ModelMap model,  @ModelAttribute(FORM_ATTRIBUTE) RegistrationForm form) {
+        model.addAttribute(FORM_ATTRIBUTE, createForm());
         return REGISTRATION;
     }
 
     @PostMapping(path = REGISTRATION_PATH)
     public String processRegistration(ModelMap model,
                                       @Validated
-                                      @ModelAttribute("form") RegistrationForm form,
+                                      @ModelAttribute(FORM_ATTRIBUTE) RegistrationForm form,
                                       BindingResult validationResult) {
-        model.addAttribute("form", createForm());
+        model.addAttribute(FORM_ATTRIBUTE, createForm());
         Role userRole = roles.findByName(UserRole.USER);
         try {
             users.create(form.getLogin(), form.getPassword(), userRole);
         } catch (Exception e) {
             validationResult.addError(
-                    new FieldError("form", "login",
+                    new FieldError(FORM_ATTRIBUTE, "login",
                             "User with login " + form.getLogin()
                                     + " is already registered."));
             return REGISTRATION;

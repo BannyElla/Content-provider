@@ -14,6 +14,11 @@ public class RegistrationForm {
             message = "Password must contains digits from 0-9, lowercase and uppercase characters, special symbols in the list \"@#$%\"")
     private String password;
 
+    public RegistrationForm(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
     public String getLogin() {
         return login;
     }

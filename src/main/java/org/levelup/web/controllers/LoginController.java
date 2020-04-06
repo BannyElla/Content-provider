@@ -22,7 +22,7 @@ public class LoginController {
         if (session.getAttribute(VERIFIED_USER_NAME_ATTRIBUTE) != null) {
             return REDIRECT;
         }
-        return "login";
+        return LOGIN;
     }
 
     @PostMapping(path = LOGIN_PATH)

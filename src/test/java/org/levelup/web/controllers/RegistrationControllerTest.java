@@ -1,13 +1,13 @@
 package org.levelup.web.controllers;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.levelup.dao.RoleDao;
 import org.levelup.dao.UserDao;
 import org.levelup.tests.TestConfiguration;
+import org.levelup.web.RegistrationForm;
 import org.levelup.web.configuration.WebConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
@@ -53,13 +53,10 @@ class RegistrationControllerTest {
 
 
     @Test
-    @Disabled
     void registrationProcess() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.post(REGISTRATION_PATH)
-                        .param(USER_NAME_PARAMETER, "test7")
-                        .param(PASSWORD_PARAMETER, "1234"))
-
+                        .flashAttr(FORM_ATTRIBUTE, new RegistrationForm("test7", "123")))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name(REDIRECT + LOGIN_PAGE + "test7"))
                 .andReturn();

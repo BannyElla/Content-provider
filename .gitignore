@@ -8,3 +8,4 @@ out
 /.idea/*
 !/.idea/codeStyles
 !/.idea/inspectionProfiles
+/apache-tomcat-9.0.33/
