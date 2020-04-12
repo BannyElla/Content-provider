@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<jsp:useBean id="form" type="org.levelup.web.RegistrationForm" scope="request"/>
+<jsp:useBean id="form" type="org.levelup.web.forms.RegistrationForm" scope="request"/>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%--<jsp:useBean id="verifiedUserName" type="java.lang.String" scope="session" />--%>
 
 <html>
 <head>

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.levelup.dao.RoleDao;
 import org.levelup.dao.UserDao;
 import org.levelup.tests.TestConfiguration;
-import org.levelup.web.RegistrationForm;
+import org.levelup.web.forms.RegistrationForm;
 import org.levelup.web.configuration.WebConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
