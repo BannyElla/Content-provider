@@ -9,13 +9,13 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 @Configuration
-@ComponentScan(basePackages = {"org.levelup.web", "org.levelup.dao"},
+@ComponentScan(basePackages = {"org.levelup.web", "org.levelup.dao", "org.levelup.repositories"},
         excludeFilters = @ComponentScan.Filter(
                 type = FilterType.ASSIGNABLE_TYPE,
                 classes = {ProdConfiguration.class, WebConfiguration.class}))
 public class TestConfiguration {
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
         bean.setPersistenceUnitName("TestDb");
         return bean;
