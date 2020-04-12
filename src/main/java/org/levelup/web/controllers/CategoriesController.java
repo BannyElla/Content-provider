@@ -30,6 +30,13 @@ public class CategoriesController {
         return new VisibilityList();
     }
 
+    @GetMapping(path = CATEGORIES_PATH)
+    public String categories(ModelMap model) {
+        List<Category> categories = dao.findAll();
+        model.addAttribute(CATEGORIES, categories);
+        return CATEGORIES;
+    }
+
     @GetMapping(path = CREATE_CATEGORY_PATH)
     public String createCategoryPage(ModelMap model, @ModelAttribute(CATEGORIES_FORM_ATTRIBUTE) CategoriesForm form) {
         model.addAttribute(VISIBILITY_ATTRIBUTE, createVisibilityList());
@@ -51,8 +58,7 @@ public class CategoriesController {
                             + " is already registered."));
             return CREATE_CATEGORY;
         }
-        List<Category> categories = dao.findAll();
-        model.addAttribute(CATEGORIES, categories);
+
         return REDIRECT + CATEGORIES;
     }
 }
