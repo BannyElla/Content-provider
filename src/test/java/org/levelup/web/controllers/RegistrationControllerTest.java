@@ -50,8 +50,6 @@ class RegistrationControllerTest {
                 .andReturn();
     }
 
-
-
     @Test
     void registrationProcess() throws Exception {
         mockMvc.perform(

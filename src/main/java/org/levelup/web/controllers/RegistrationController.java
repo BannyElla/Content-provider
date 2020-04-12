@@ -1,7 +1,9 @@
 package org.levelup.web.controllers;
 
 import org.levelup.dao.RoleDao;
+import org.levelup.dao.UserDao;
 import org.levelup.model.Role;
+import org.levelup.model.User;
 import org.levelup.model.UserRole;
 import org.levelup.repositories.UsersRepository;
 import org.levelup.web.RegistrationForm;
@@ -20,7 +22,9 @@ import static org.levelup.web.AppConstants.*;
 @Controller
 public class RegistrationController {
     @Autowired
-    UsersRepository users;
+    UserDao users;
+    @Autowired
+    UsersRepository usersRepository;
     @Autowired
     RoleDao roles;
 
@@ -43,7 +47,8 @@ public class RegistrationController {
         model.addAttribute(FORM_ATTRIBUTE, createForm());
         Role userRole = roles.findByName(UserRole.USER);
         try {
-            users.create(form.getLogin(), form.getPassword(), userRole);
+           // users.create(form.getLogin(), form.getPassword(), userRole);
+            usersRepository.save(new User(form.getLogin(), form.getPassword(), userRole));
         } catch (Exception e) {
             validationResult.addError(
                     new FieldError(FORM_ATTRIBUTE, "login",

@@ -13,6 +13,7 @@ import java.util.Objects;
 
 @Repository
 public class UserDao extends AbstractDao<User> {
+
     @Transactional
     public User create(String login, String password, Role role) {
         User user = new User(login, password, role);
