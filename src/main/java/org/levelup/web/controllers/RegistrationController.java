@@ -1,9 +1,9 @@
 package org.levelup.web.controllers;
 
 import org.levelup.dao.RoleDao;
-import org.levelup.dao.UserDao;
 import org.levelup.model.Role;
 import org.levelup.model.UserRole;
+import org.levelup.repositories.UsersRepository;
 import org.levelup.web.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,14 +20,13 @@ import static org.levelup.web.AppConstants.*;
 @Controller
 public class RegistrationController {
     @Autowired
-    UserDao users;
+    UsersRepository users;
     @Autowired
     RoleDao roles;
 
     @ModelAttribute(FORM_ATTRIBUTE)
     public RegistrationForm createForm() {
-        RegistrationForm form = new RegistrationForm("", "");
-        return form;
+        return new RegistrationForm("", "");
     }
 
     @GetMapping(path = REGISTRATION_PATH)
