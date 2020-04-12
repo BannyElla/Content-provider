@@ -10,8 +10,8 @@ public class RegistrationForm {
     private String login;
 
     @Size(min = 6, max = 25)
-    @Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).",
-            message = "Password must contains digits from 0-9, lowercase and uppercase characters, special symbols in the list \"@#$%\"")
+    @Pattern(regexp = "(?=.*[0-9]])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!_-]).",
+            message = "Password must contains digits from 0-9, lowercase and uppercase characters, special symbols in the list \"@#$%!_-\"")
     private String password;
 
     public RegistrationForm(String login, String password) {

@@ -19,8 +19,6 @@ public class User {
     private String login;
 
     @Size(min = 6, max = 25)
-    @Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).",
-            message = "Password must contains digits from 0-9, lowercase and uppercase characters, special symbols in the list \"@#$%\"")
     @Column(nullable = false)
     private String password;
 
