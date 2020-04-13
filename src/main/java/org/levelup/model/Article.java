@@ -1,5 +1,7 @@
 package org.levelup.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -20,12 +22,14 @@ public class Article {
     private String text;
 
     @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private Date creationDate = new Date();
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Image image;
 
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Category category;
 
     public Long getId() {

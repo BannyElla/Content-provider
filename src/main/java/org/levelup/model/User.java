@@ -1,5 +1,8 @@
 package org.levelup.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -20,9 +23,11 @@ public class User {
 
     @Size(min = 6, max = 25)
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private Date creationDate = new Date();
 
     @ManyToOne(optional = false)

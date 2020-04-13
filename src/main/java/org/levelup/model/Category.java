@@ -1,5 +1,6 @@
 package org.levelup.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -19,7 +20,19 @@ public class Category {
     @Enumerated(EnumType.STRING)
     private VisibilityType visible = VisibilityType.PRIVATE;
 
+    public Category(String name, VisibilityType visible) {
+        this.name = name;
+        this.visible = visible;
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
+
+    public Category() {}
+
     @OneToMany
+    @JsonIgnore
     private List<Article> articles;
 
     public Long getId() {
