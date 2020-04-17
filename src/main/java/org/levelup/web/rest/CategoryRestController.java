@@ -6,6 +6,8 @@ import org.levelup.model.VisibilityType;
 import org.levelup.repositories.CategoryRepository;
 import org.levelup.web.rest.response.CategoryStatistic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class CategoryRestController {
@@ -21,7 +24,7 @@ public class CategoryRestController {
     @Autowired
     CategoryDao dao;
 
-    @GetMapping("/api/categories")
+    @GetMapping("/api/categories") // путь от корня, по которому будет доступен этот get-запрос
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
         repository.findAll().forEach(categories::add);
@@ -29,8 +32,9 @@ public class CategoryRestController {
     }
 
     @GetMapping("/api/public-categories")
-    public List<Category> getPublicCategories() {
-        return repository.findPublicCategories();
+    public List<Category> getPublicCategories(@RequestParam int pageNumber) {
+        Page<Category> categoryPage = repository.findPublicCategories(PageRequest.of(pageNumber - 1, 3));
+        return categoryPage.get().collect(Collectors.toList());
     }
 
     @GetMapping("/api/create-category")

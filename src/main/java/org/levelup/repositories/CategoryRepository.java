@@ -1,21 +1,21 @@
 package org.levelup.repositories;
 
 import org.levelup.model.Category;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+/* Этот репозиторий будет доступен по адресу /api/repository/categories */
 @Repository
-public interface CategoryRepository extends CrudRepository<Category, Integer> {
-    Category save(@Param("category") Category category);
+public interface CategoryRepository extends PagingAndSortingRepository<Category, Integer> {
 
     @Query("select c from Category c where c.visible ='PUBLIC'")
-    List<Category> findPublicCategories();
+    Page<Category> findPublicCategories(Pageable page);
 
     @Query("select c from Category c where c.visible ='PRIVATE'")
-    List<Category> findPrivateCategories();
+    Page<Category> findPrivateCategories(Pageable page);
 
     @Query("select count(a.id) from Category c, Article a")
     int countArticlesInAllCategories();
