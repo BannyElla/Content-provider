@@ -3,12 +3,13 @@ package org.levelup.repositories;
 import org.levelup.model.Category;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface CategoryRepository extends CrudRepository<Category, Integer> {
-    Category save(Category category);
-    Category findById(long id);
+    Category save(@Param("category") Category category);
 
     @Query("select c from Category c where c.visible ='PUBLIC'")
     List<Category> findPublicCategories();
