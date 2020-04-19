@@ -45,7 +45,7 @@ class LoginControllerTest {
     @Test
     void loginFormView() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.get(LOGIN_PATH)).andExpect(status().isOk())
+                MockMvcRequestBuilders.get(LOGIN_PAGE)).andExpect(status().isOk())
                 .andExpect(view().name(LOGIN))
                 .andReturn();
     }
@@ -53,7 +53,7 @@ class LoginControllerTest {
     @Test
     void sessionAttr() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.get(LOGIN_PATH).sessionAttr(VERIFIED_USER_NAME_ATTRIBUTE, "test1"))
+                MockMvcRequestBuilders.get(LOGIN_PAGE).sessionAttr(VERIFIED_USER_NAME_ATTRIBUTE, "test1"))
                 .andExpect(status().is3xxRedirection())
                 .andReturn();
     }
@@ -64,7 +64,7 @@ class LoginControllerTest {
         users.create("test", "123", role);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post(LOGIN_PATH)
+                MockMvcRequestBuilders.post(LOGIN_PAGE)
                         .param(USER_NAME_PARAMETER, "test")
                         .param(PASSWORD_PARAMETER, "123"))
                 .andExpect(request().sessionAttribute(VERIFIED_USER_NAME_ATTRIBUTE, "test"))
@@ -79,12 +79,12 @@ class LoginControllerTest {
         users.create("test1", "123", role);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post(LOGIN_PATH)
+                MockMvcRequestBuilders.post(LOGIN_PAGE)
                         .param(USER_NAME_PARAMETER, "wrong-test")
                         .param(PASSWORD_PARAMETER, "123"))
                 .andExpect(request().sessionAttribute("message", "wrong login or password"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name(REDIRECT + LOGIN_PAGE))
+                .andExpect(view().name(REDIRECT + LOGIN_PAGE_WITH_PARAMETER))
                 .andReturn();
     }
 
@@ -94,12 +94,12 @@ class LoginControllerTest {
         users.create("test2", "321", role);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post(LOGIN_PATH)
+                MockMvcRequestBuilders.post(LOGIN_PAGE)
                         .param(USER_NAME_PARAMETER, "test2")
                         .param(PASSWORD_PARAMETER, "123"))
                 .andExpect(request().sessionAttribute("message", "wrong login or password"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name(REDIRECT + LOGIN_PAGE))
+                .andExpect(view().name(REDIRECT + LOGIN_PAGE_WITH_PARAMETER))
                 .andReturn();
     }
 
@@ -108,7 +108,7 @@ class LoginControllerTest {
         Role role = roles.create(new Role(UserRole.USER));
         users.create("test3", "333", role);
         mockMvc.perform(
-                MockMvcRequestBuilders.post(LOGIN_PATH)
+                MockMvcRequestBuilders.post(LOGIN_PAGE)
                         .param(USER_NAME_PARAMETER, "test3")
                         .param(PASSWORD_PARAMETER, "333")
                 .sessionAttr(VERIFIED_USER_NAME_ATTRIBUTE, "test3"))

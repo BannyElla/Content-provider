@@ -2,6 +2,7 @@ package org.levelup.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -10,6 +11,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "users")
+@ToString
 public class User {
     @Id
     @GeneratedValue
@@ -21,7 +23,7 @@ public class User {
             message = "You can use only letters, digits, underscore, minus sign and dots")
     private String login;
 
-    @Size(min = 6, max = 25)
+    @Size(min = 3, max = 70)
     @Column(nullable = false)
     @JsonIgnore
     private String password;

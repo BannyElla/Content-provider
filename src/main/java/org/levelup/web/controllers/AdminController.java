@@ -18,7 +18,7 @@ import java.util.List;
 import static org.levelup.web.AppConstants.*;
 
 @Controller
-public class CategoriesController {
+public class AdminController {
     @Autowired
     private CategoryDao dao;
 /*    @ModelAttribute(CATEGORIES_FORM_ATTRIBUTE)
@@ -30,20 +30,20 @@ public class CategoriesController {
         return new VisibilityList();
     }
 
-    @GetMapping(path = CATEGORIES_PATH)
+    @GetMapping(path = CRUD_CATEGORIES_PAGE)
     public String categories(ModelMap model) {
         List<Category> categories = dao.findAll();
         model.addAttribute(CATEGORIES, categories);
         return CATEGORIES;
     }
 
-    @GetMapping(path = CREATE_CATEGORY_PATH)
+    @GetMapping(path = CREATE_CATEGORY_PAGE)
     public String createCategoryPage(ModelMap model, @ModelAttribute(CATEGORIES_FORM_ATTRIBUTE) CategoriesForm form) {
         model.addAttribute(VISIBILITY_ATTRIBUTE, createVisibilityList());
         return CREATE_CATEGORY;
     }
 
-    @PostMapping(path = CREATE_CATEGORY_PATH)
+    @PostMapping(path = CREATE_CATEGORY_PAGE)
     public String create(ModelMap model, @ModelAttribute(CATEGORIES_FORM_ATTRIBUTE) CategoriesForm form, BindingResult validationResult) {
         model.addAttribute(VISIBILITY_ATTRIBUTE, createVisibilityList());
         Category newCategory = new Category();

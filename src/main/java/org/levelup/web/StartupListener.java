@@ -3,19 +3,18 @@ package org.levelup.web;
 import org.levelup.dao.ArticleDao;
 import org.levelup.dao.RoleDao;
 import org.levelup.dao.UserDao;
-import org.levelup.model.Article;
 import org.levelup.model.Role;
 import org.levelup.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
+import org.springframework.util.CollectionUtils;
 
-import java.util.List;
-
-import static org.levelup.web.AppConstants.*;
+import static org.levelup.web.AppConstants.ADMIN;
+import static org.levelup.web.AppConstants.ADMIN_PASSWORD;
 
 @Component
 public class StartupListener {
@@ -25,6 +24,9 @@ public class StartupListener {
     UserDao users;
     @Autowired
     ArticleDao articles;
+    @Autowired
+    PasswordEncoder encoder;
+
 
     @EventListener
     @Transactional
@@ -46,13 +48,8 @@ public class StartupListener {
             roles.create(userRole);
         }
 
-        if (users.findByRole(adminRole) == null) {
-            users.create(ADMIN_LOGIN, ADMIN_PASSWORD, adminRole);
+        if (CollectionUtils.isEmpty(users.findByRole(adminRole))) {
+            users.create(ADMIN, encoder.encode(ADMIN_PASSWORD), adminRole);
         }
-    }
-
-    private void getArticles(ModelMap model) {
-        List<Article> articleList = articles.findAll();
-        model.addAttribute(ALL_ARTICLES_ATTRIBUTE, articleList);
     }
 }

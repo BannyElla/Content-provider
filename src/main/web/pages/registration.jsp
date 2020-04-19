@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <html>
 <head>
@@ -8,6 +9,7 @@
 <body>
 <h1>Форма регистрации</h1>
 <form:form modelAttribute="form" action="registration" method="post" enctype="application/x-www-form-urlencoded">
+    <security:csrfInput/>
     <p>
         <label>
             Login:

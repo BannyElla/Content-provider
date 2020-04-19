@@ -1,11 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <title>Login</title>
 </head>
 <body>
 <h1>Вход</h1>
-<form method="POST" action="login" enctype="application/x-www-form-urlencoded">
+<form method="POST" action="login-action" enctype="application/x-www-form-urlencoded">
+    <security:csrfInput/>
     <p>
         <label>
             Login:
@@ -23,10 +25,5 @@
         <input type="submit" value="Login">
     </p>
 </form>
-<c:if test="${not empty sessionScope['message']}">
-    <p>
-        Привет, ${sessionScope['message']}!
-    </p>
-</c:if>
 </body>
 </html>

@@ -45,7 +45,7 @@ class RegistrationControllerTest {
     @Test
     void registrationFormView() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.get(REGISTRATION_PATH)).andExpect(status().isOk())
+                MockMvcRequestBuilders.get(REGISTRATION_PAGE)).andExpect(status().isOk())
                 .andExpect(view().name(REGISTRATION))
                 .andReturn();
     }
@@ -53,10 +53,10 @@ class RegistrationControllerTest {
     @Test
     void registrationProcess() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.post(REGISTRATION_PATH)
+                MockMvcRequestBuilders.post(REGISTRATION_PAGE)
                         .flashAttr(FORM_ATTRIBUTE, new RegistrationForm("test7", "123")))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name(REDIRECT + LOGIN_PAGE + "test7"))
+                .andExpect(view().name(REDIRECT + LOGIN_PAGE_WITH_PARAMETER + "test7"))
                 .andReturn();
     }
 }
