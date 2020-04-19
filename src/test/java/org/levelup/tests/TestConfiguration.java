@@ -20,4 +20,9 @@ public class TestConfiguration {
         bean.setPersistenceUnitName("TestDb");
         return bean;
     }
+
+    //    @Bean
+//    public UserDetailsService testService() {
+//        return new TestUserService();
+//    }
 }
