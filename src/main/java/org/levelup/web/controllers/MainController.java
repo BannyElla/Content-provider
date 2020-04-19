@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.levelup.web.AppConstants.INDEX;
+import static org.levelup.web.AppConstants.REDIRECT;
 
 @Controller
 public class MainController {
@@ -29,6 +30,13 @@ public class MainController {
         model.addAttribute("public_categories", categories.findPublicCategories(getPage()).toList());
         return INDEX;
     }
+
+    @GetMapping("/log-out")
+    public String logOut(Model model) {
+        model.addAttribute("username",null);
+        return REDIRECT;
+    }
+
 
     private PageRequest getPage() {
         return PageRequest.of(0, 10);

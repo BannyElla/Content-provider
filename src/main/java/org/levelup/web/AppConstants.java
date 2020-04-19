@@ -14,6 +14,8 @@ public class AppConstants {
     public static final String CREATE_CATEGORY = "createCategory";
     public static final String CATEGORIES = "categories";
     public static final String INDEX = "index";
+    public static final String ALL_ARTICLES = "all-articles";
+    public static final String LOG_OUT = "log-out";
 
     /** Attribute names */
     public static final String FACTORY_ATTRIBUTE = "factory";
@@ -35,6 +37,8 @@ public class AppConstants {
     public static final String REGISTRATION_PAGE = "/" + REGISTRATION;
     public static final String CREATE_CATEGORY_PAGE = "/" + CREATE_CATEGORY;
     public static final String CRUD_CATEGORIES_PAGE = "/" + ADMIN + "/" + CATEGORIES;
+    public static final String ALL_ARTICLES_PAGE = "/" + ALL_ARTICLES;
+    public static final String LOG_OUT_PAGE = "/" + LOG_OUT;
 
     /** JSP URL */
     public static final String LOGIN_JSP = String.format("/%s/%s.jsp", PAGES_CATALOG, LOGIN);

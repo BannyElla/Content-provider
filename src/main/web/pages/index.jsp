@@ -29,6 +29,10 @@
                 <a href="private-category/${category.getId()}">${category.getName()}</a>
             </div>
         </c:forEach>
+        <br>
+        <a href="all-articles">Все статьи</a>
+        <br>
+        <a href="log-out">Log out</a>
     </c:otherwise>
 </c:choose>
 <br>

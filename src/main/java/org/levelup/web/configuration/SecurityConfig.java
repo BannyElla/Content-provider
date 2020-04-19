@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/pages/**", "**/*.jsp").denyAll() // не забыть про css, в т.ч. в WebConfiguration
                 .antMatchers("/", "/scripts/**", LOGIN_PAGE, LOGIN_ACTION, REGISTRATION_PAGE).permitAll()
                 .antMatchers("/" + ADMIN + "/**").hasRole(String.valueOf(UserRole.ADMIN))
-                .antMatchers("/api/**").authenticated()
+                .antMatchers("/api/**", ALL_ARTICLES_PAGE, "/article/**", LOG_OUT_PAGE).authenticated()
                 .anyRequest().denyAll();
 
         http.formLogin()

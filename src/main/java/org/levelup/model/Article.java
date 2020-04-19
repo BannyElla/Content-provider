@@ -32,6 +32,15 @@ public class Article {
     @JsonIgnore
     private Category category;
 
+    public Article(String header, String text, Category category) {
+        this.header = header;
+        this.text = text;
+        this.category = category;
+    }
+
+      public Article() {}
+
+
     public Long getId() {
         return this.id;
     }
